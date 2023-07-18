@@ -1,0 +1,20 @@
+{
+  "name": "c17-m3-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isc-joserodriguez/C17-M3-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isc-joserodriguez/C17-M3-API/issues"
+  },
+  "homepage": "https://github.com/isc-joserodriguez/C17-M3-API#readme"
+}
