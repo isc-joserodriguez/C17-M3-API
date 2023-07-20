@@ -1,6 +1,7 @@
 //! 1.- Importar elementos necesarios (express/controladores)
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const {
   crearUsuario,
   obtenerUsuarioPorId,
@@ -14,6 +15,7 @@ const {
 //! 2.- Instanciar express
 const app = express();
 //! 3.- Funciones ""especiales""" - Middlewares
+app.use(cors()); //! Esto sirve para evitar el error de CORS
 app.use(express.json()); //! Esto sirve para indicar que vamos a usar JSON (body)
 //! 4.- Creación de rutas
 app.get('/', (request, response) => {
