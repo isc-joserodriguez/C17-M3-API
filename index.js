@@ -1,4 +1,5 @@
 //! 1.- Importar elementos necesarios (express/controladores)
+require('dotenv').config();
 const express = require('express');
 const {
   crearUsuario,
@@ -18,6 +19,7 @@ app.use(express.json()); //! Esto sirve para indicar que vamos a usar JSON (body
 app.get('/', (request, response) => {
   response.json({
     mensaje: 'Hola, esta es la API C17!!!',
+    mensajeEnvVar: process.env.MENSAJE,
   });
 });
 
@@ -32,12 +34,8 @@ app.get('/helados/:id', obtenerHeladoPorId);
 
 //! 5.- Levantar servidor
 
-const config = {
-  PORT: 3001,
-};
-
-app.listen(config.PORT, () => {
-  console.log('Iniciado mi servidor en el puerto ' + config.PORT);
+app.listen(process.env.PORT, () => {
+  console.log('Iniciado mi servidor en el puerto ' + process.env.PORT);
 });
 
 // MERN
