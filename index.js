@@ -2,37 +2,15 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const {
-  crearUsuario,
-  obtenerUsuarioPorId,
-  obtenerTodosLosUsuarios,
-  actualizarUsuario,
-  crearHelado,
-  obtenerHeladoPorId,
-  obtenerTodosLosHelados,
-} = require('./controllers');
-
+//! 1.1.- Importar ruteo Principal
+const routes = require('./routes');
 //! 2.- Instanciar express
 const app = express();
 //! 3.- Funciones ""especiales""" - Middlewares
 app.use(cors()); //! Esto sirve para evitar el error de CORS
 app.use(express.json()); //! Esto sirve para indicar que vamos a usar JSON (body)
-//! 4.- Creación de rutas
-app.get('/', (request, response) => {
-  response.json({
-    mensaje: 'Hola, esta es la API C17!!!',
-    mensajeEnvVar: process.env.MENSAJE,
-  });
-});
-
-app.post('/users', crearUsuario);
-app.get('/users', obtenerTodosLosUsuarios);
-app.get('/users/:id', obtenerUsuarioPorId);
-app.put('/users/:id', actualizarUsuario);
-
-app.post('/helados', crearHelado);
-app.get('/helados', obtenerTodosLosHelados);
-app.get('/helados/:id', obtenerHeladoPorId);
+//! 4.- Definir ruteo de la API
+app.use('/v1', routes)
 
 //! 5.- Levantar servidor
 
