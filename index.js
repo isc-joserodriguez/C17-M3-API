@@ -1,7 +1,11 @@
 //! 1.- Importar elementos necesarios (express/controladores)
 require('dotenv').config();
+require('./models');
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI);
 //! 1.1.- Importar ruteo Principal
 const routes = require('./routes');
 //! 2.- Instanciar express

@@ -1,21 +1,26 @@
+//! 1.- Importar lo necesario
+const mongoose = require('mongoose');
+const Usuario = mongoose.model('Usuario');
+
 const users = [];
 
-const crearUsuario = (request, response) => {
+const crearUsuario = async (request, response) => {
   //! Crea a un usuario nuevo
-  const { nombre, edad, correo, password, telefono, apellido, otra } =
-    request.body;
-  users.push({
+  const { nombre, edad, telefono, apellido, avatar } = request.body;
+
+  const usuario = new Usuario({
     nombre,
     edad,
-    correo,
-    password,
     telefono,
     apellido,
-    otra,
+    avatar,
   });
+
+  const resp = await usuario.save();
+
   response.json({
     mensaje: 'Usuario guardado ',
-    data: users,
+    data: resp,
   });
 };
 
