@@ -18,6 +18,5 @@ router.get('/:id', obtenerUsuarioPorId);
 router.put('/:id', actualizarUsuario);
 router.delete('/:id', borrarUsuario);
 
-borrarUsuario;
 //! 4.- Exportar rutas
 module.exports = router;

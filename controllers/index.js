@@ -1,15 +1,7 @@
-const {
-  crearUsuario,
-  obtenerTodosLosUsuarios,
-  obtenerUsuarioPorId,
-  actualizarUsuario,
-  borrarUsuario,
-} = require('./Usuarios.controller');
+const UsuariosControllers = require('./Usuarios.controller');
+const HeladosControllers = require('./Helados.controller');
 
 module.exports = {
-  crearUsuario,
-  obtenerTodosLosUsuarios,
-  obtenerUsuarioPorId,
-  actualizarUsuario,
-  borrarUsuario,
+  ...UsuariosControllers,
+  ...HeladosControllers,
 };
