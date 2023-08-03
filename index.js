@@ -1,20 +1,26 @@
-//! 1.- Importar elementos necesarios (express/controladores)
+//! 1.- Configurar env vars
 require('dotenv').config();
+//! 2.- Importar Modelos
 require('./models');
+//! 3.- Importar Librerías/Bibliotecas
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGO_URI);
-//! 1.1.- Importar ruteo Principal
+const cors = require('cors');
 const routes = require('./routes');
-//! 2.- Instanciar express
+
 const app = express();
+//! 4.- Conexión a Mongo
+
+//! 1.1.- Importar ruteo Principal
+//! 2.- Instanciar express
 //! 3.- Funciones ""especiales""" - Middlewares
 app.use(cors()); //! Esto sirve para evitar el error de CORS
 app.use(express.json()); //! Esto sirve para indicar que vamos a usar JSON (body)
+
+mongoose.connect(process.env.MONGO_URI);
+
 //! 4.- Definir ruteo de la API
-app.use('/v1', routes)
+app.use('/v1', routes);
 
 //! 5.- Levantar servidor
 
