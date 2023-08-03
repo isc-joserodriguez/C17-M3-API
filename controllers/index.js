@@ -1,7 +1,18 @@
-const UsuariosControllers = require('./Usuarios.controller');
-const HeladosControllers = require('./Helados.controller');
+const {
+  crearUsuario,
+  obtenerTodosLosUsuarios,
+  obtenerUsuarioPorId,
+  actualizarUsuario,
+} = require('./Usuarios.controller');
+const {
+  crearHelado,
+  obtenerTodosLosHelados,
+  obtenerHeladoPorId,
+} = require('./Helados.controller');
 
 module.exports = {
-  ...UsuariosControllers,
-  ...HeladosControllers,
+  crearUsuario,
+  obtenerTodosLosUsuarios,
+  obtenerUsuarioPorId,
+  actualizarUsuario,
 };
