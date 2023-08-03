@@ -2,60 +2,119 @@
 const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
-const users = [];
-
 const crearUsuario = async (request, response) => {
-  //! Crea a un usuario nuevo
-  const { nombre, edad, telefono, apellido, avatar } = request.body;
+  try {
+    const { nombre, edad, telefono, apellido, avatar } = request.body;
 
-  const usuario = new Usuario({
-    nombre,
-    edad,
-    telefono,
-    apellido,
-    avatar,
-  });
+    //! Crea a un usuario nuevo
+    const usuario = new Usuario({
+      nombre,
+      edad,
+      telefono,
+      apellido,
+      avatar,
+    });
 
-  const resp = await usuario.save();
+    const resp = await usuario.save();
 
-  response.json({
-    mensaje: 'Usuario guardado ',
-    data: resp,
-  });
+    response.status(201).json({
+      mensaje: 'Usuario guardado ',
+      data: resp,
+    });
+  } catch (err) {
+    console.error(err);
+    response.status(400).json({
+      mensaje: 'No se pudo guardar el usuario',
+    });
+  }
 };
 
-const obtenerTodosLosUsuarios = (request, response) => {
-  response.json({
-    mensaje: 'Obtener todos los usuarios',
-    data: users,
-  });
+const obtenerTodosLosUsuarios = async (request, response) => {
+  try {
+    const usuarios = await Usuario.find();
+    if (!usuarios.length)
+      return response.status(404).json({
+        mensaje: 'Tienes una colección vacía',
+      });
+    response.status(200).json({
+      mensaje: 'Obtener todos los usuarios',
+      data: usuarios,
+    });
+  } catch (err) {
+    console.error(err);
+    response.status(400).json({
+      mensaje: 'Error en el server',
+    });
+  }
 };
 
-const obtenerUsuarioPorId = (request, response) => {
-  const { id } = request.params;
-  response.json({
-    mensaje: 'Obtener un usuario',
-    data: users[Number(id)],
-  });
+const obtenerUsuarioPorId = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const usuario = await Usuario.findById(id);
+    if (!usuario)
+      return response.status(404).json({
+        mensaje: 'Usuario no encontrado',
+      });
+    response.status(200).json({
+      mensaje: 'Obtener un usuario',
+      data: usuario,
+    });
+  } catch (err) {
+    console.error(err);
+    response.status(400).json({
+      mensaje: 'Error en el servidor',
+    });
+  }
 };
 
-const actualizarUsuario = (request, response) => {
-  const { id } = request.params;
-  const { nombre, edad, correo, password, telefono, apellido, otra } =
-    request.body;
-  users[Number(id)] = {
-    nombre,
-    edad,
-    correo,
-    password,
-    telefono,
-    apellido,
-    otra,
-  };
-  response.json({
-    mensaje: 'Usuario actualizado',
-    data: users,
-  });
+const actualizarUsuario = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const usuarioExists = await Usuario.findById(id);
+    if (!usuarioExists)
+      return response.status(404).json({
+        mensaje: 'Usuario no encontrado',
+      });
+    const { nombre, apellido, edad } = request.body;
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(
+      id,
+      { nombre, apellido, edad },
+      { new: true }
+    );
+
+    response.status(200).json({
+      mensaje: 'Usuario actualizado',
+      data: usuarioActualizado,
+    });
+  } catch (err) {
+    console.error(err);
+    response.status(400).json({
+      mensaje: 'Error en el servidor',
+    });
+  }
+};
+
+const borrarUsuario = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const usuarioExists = await Usuario.findById(id);
+    if (!usuarioExists)
+      return response.status(404).json({
+        mensaje: 'Usuario no encontrado',
+      });
+    const resp = await Usuario.findByIdAndDelete(id);
+
+    response.status(200).json({
+      mensaje: 'Usuario eliminado',
+      data: resp,
+    });
+  } catch (err) {
+    console.error(err);
+    response.status(400).json({
+      mensaje: 'Error en el servidor',
+    });
+  }
 };
 
 module.exports = {
@@ -63,6 +122,7 @@ module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
+  borrarUsuario,
 };
 
 //! export default Componente; // Webpack, rollup, browserify, etc.

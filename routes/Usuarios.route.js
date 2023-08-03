@@ -8,6 +8,7 @@ const {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
+  borrarUsuario,
 } = require('../controllers');
 
 //! 3.- Crear rutas "Raíz"
@@ -15,5 +16,8 @@ router.post('/', crearUsuario);
 router.get('/', obtenerTodosLosUsuarios);
 router.get('/:id', obtenerUsuarioPorId);
 router.put('/:id', actualizarUsuario);
+router.delete('/:id', borrarUsuario);
+
+borrarUsuario;
 //! 4.- Exportar rutas
 module.exports = router;
