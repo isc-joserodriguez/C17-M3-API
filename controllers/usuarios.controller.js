@@ -2,33 +2,6 @@
 const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
-const crearUsuario = async (request, response) => {
-  try {
-    const { nombre, edad, telefono, apellido, avatar } = request.body;
-
-    //! Crea a un usuario nuevo
-    const usuario = new Usuario({
-      nombre,
-      edad,
-      telefono,
-      apellido,
-      avatar,
-    });
-
-    const resp = await usuario.save();
-
-    response.status(201).json({
-      mensaje: 'Usuario guardado ',
-      data: resp,
-    });
-  } catch (err) {
-    console.error(err);
-    response.status(400).json({
-      mensaje: 'No se pudo guardar el usuario',
-    });
-  }
-};
-
 const obtenerTodosLosUsuarios = async (request, response) => {
   try {
     const usuarios = await Usuario.find();
@@ -118,7 +91,6 @@ const borrarUsuario = async (request, response) => {
 };
 
 module.exports = {
-  crearUsuario,
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
