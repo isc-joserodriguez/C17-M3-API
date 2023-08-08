@@ -6,7 +6,7 @@ require('./models');
 
 //! 3.- Importar Librerías/Bibliotecas
 const express = require('express');
-const mongoose = require('mongoose');
+const connectionDB = require('./db/config');
 const cors = require('cors');
 
 //! 4.- Importar rutas
@@ -20,7 +20,7 @@ app.use(cors()); //! Esto sirve para evitar el error de CORS
 app.use(express.json()); //! Esto sirve para indicar que vamos a usar JSON (body)
 
 //! 6.- Conexión a Mongo
-mongoose.connect(process.env.MONGO_URI);
+connectionDB();
 
 //! 7.- Definir ruteo de la API
 app.use('/v1', routes);
