@@ -4,7 +4,7 @@ const Usuario = mongoose.model('Usuario');
 
 const registro = async (request, response) => {
   try {
-    const { nombre, edad, telefono, apellido, avatar, password, correo } =
+    const { nombre, edad, telefono, apellido, avatar, password, correo, rol } =
       request.body;
 
     //! Crea a un usuario nuevo
@@ -15,15 +15,23 @@ const registro = async (request, response) => {
       telefono,
       apellido,
       avatar,
+      rol,
     });
 
     usuario.hashPassword(password);
 
-    const resp = await usuario.save();
+    await usuario.save();
 
     response.status(201).json({
       mensaje: 'Usuario guardado ',
-      data: resp,
+      data: {
+        token: usuario.generateJWT(),
+        info: {
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          rol: usuario.rol,
+        },
+      },
     });
   } catch (err) {
     console.error(err);
@@ -48,7 +56,14 @@ const iniciarSesion = async (request, response) => {
 
     response.status(200).json({
       mensaje: 'Login correcto',
-      data: usuario,
+      data: {
+        token: usuario.generateJWT(),
+        info: {
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          rol: usuario.rol,
+        },
+      },
     });
   } catch (err) {
     console.error(err);

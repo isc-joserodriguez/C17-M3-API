@@ -4,9 +4,10 @@
  * 3.- Exportar el modelo
  */
 
-//! 1.- Importar mongoose
+//! 1.- Importar paquetes de node
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 //! 2.- Crear el esquema
 //! ESTO FUNCIONA COMO UNA PLANTILLA
@@ -19,6 +20,7 @@ const UsuarioSchema = new mongoose.Schema({
   correo: String,
   telefono: String,
   avatar: String,
+  rol: String,
   password: String,
   salt: String,
 });
@@ -36,6 +38,10 @@ UsuarioSchema.methods.hashPassword = function (password) {
 
 UsuarioSchema.methods.verifyPassword = function (password) {
   return this.password === this.encrypt(password, this.salt);
+};
+
+UsuarioSchema.methods.generateJWT = function () {
+  return jwt.sign({ idUser: this._id, rol: this.rol }, process.env.JWT_SECRET);
 };
 
 //! 3.- Exportar el modelo
