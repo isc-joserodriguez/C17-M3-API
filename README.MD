@@ -5,7 +5,16 @@ Pasos para correr el proyecto:
 npm install en la raíz
 ```
 
-2. Correr proyecto:
+2. Configurar variables de entorno
+```bash
+MENSAJE = #Mensaje de prueba
+PORT = #Puerto de la API
+MONGO_URI = #Conexión a mongo
+JWT_SECRET = #Secret para los tokens
+```
+
+
+3. Correr proyecto:
 
 ``` bash
 npm run dev
