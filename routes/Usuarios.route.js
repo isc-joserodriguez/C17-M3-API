@@ -9,12 +9,13 @@ const {
   actualizarUsuario,
   borrarUsuario,
 } = require('../controllers');
+const auth = require('../middleware/auth');
 
 //! 3.- Crear rutas "Raíz"
-router.get('/', obtenerTodosLosUsuarios);
-router.get('/:id', obtenerUsuarioPorId);
-router.put('/:id', actualizarUsuario);
-router.delete('/:id', borrarUsuario);
+router.get('/', auth, obtenerTodosLosUsuarios);
+router.get('/:id', auth, obtenerUsuarioPorId);
+router.put('/:id', auth, actualizarUsuario);
+router.delete('/:id', auth, borrarUsuario);
 
 //! 4.- Exportar rutas
 module.exports = router;

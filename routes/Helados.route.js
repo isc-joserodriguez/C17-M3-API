@@ -10,13 +10,14 @@ const {
   actualizarHelado,
   borrarHelado,
 } = require('../controllers');
+const auth = require('../middleware/auth');
 
 //! 3.- Crear rutas "Raíz"
-router.post('/', crearHelado);
+router.post('/', auth, crearHelado);
 router.get('/', obtenerTodosLosHelados);
 router.get('/:id', obtenerHeladoPorId);
-router.put('/:id', actualizarHelado);
-router.delete('/:id', borrarHelado);
+router.put('/:id', auth, actualizarHelado);
+router.delete('/:id', auth, borrarHelado);
 
 //! 4.- Exportar rutas
 module.exports = router;

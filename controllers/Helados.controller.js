@@ -4,6 +4,10 @@ const Helado = mongoose.model('Helado');
 
 const crearHelado = async (request, response) => {
   try {
+    if (request.user.rol !== 'Administrador')
+      return response.status(401).json({
+        mensaje: 'Sólo un Administrador puede crear helados',
+      });
     const { nombre, sabor, precio } = request.body;
 
     //! Crea a un helado nuevo

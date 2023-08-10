@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
-const registro = async (request, response) => {
+const registro = async (request, response, next) => {
   try {
     const { nombre, edad, telefono, apellido, avatar, password, correo, rol } =
       request.body;
