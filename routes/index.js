@@ -5,6 +5,7 @@ const router = express.Router();
 const usuariosRouter = require('./Usuarios.route');
 const heladosRouter = require('./Helados.route');
 const authRouter = require('./Auth.route');
+const proovedorRouter = require('./Proveedor.route');
 //! 3.- Crear rutas "Raíz"
 router.get('/', (request, response) => {
   response.json({
@@ -16,5 +17,6 @@ router.get('/', (request, response) => {
 router.use('/usuarios', usuariosRouter);
 router.use('/helados', heladosRouter);
 router.use('/auth', authRouter);
+router.use('/proveedor', proovedorRouter);
 //! 5.- Exportar rutas
 module.exports = router;

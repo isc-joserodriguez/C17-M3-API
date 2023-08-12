@@ -8,20 +8,23 @@ const crearHelado = async (request, response) => {
       return response.status(401).json({
         mensaje: 'Sólo un Administrador puede crear helados',
       });
-    const { nombre, sabor, precio } = request.body;
+    const { nombre, sabor, precio, proveedor } = request.body;
+
+    console.log({ nombre, sabor, precio, proveedor });
 
     //! Crea a un helado nuevo
     const helado = new Helado({
       nombre,
       sabor,
       precio,
+      proveedor,
     });
 
     const resp = await helado.save();
 
     response.status(201).json({
       mensaje: 'Helado guardado ',
-      data: resp,
+      data: await resp.populate('proveedor'),
     });
   } catch (err) {
     console.error(err);
@@ -33,7 +36,7 @@ const crearHelado = async (request, response) => {
 
 const obtenerTodosLosHelados = async (request, response) => {
   try {
-    const helados = await Helado.find();
+    const helados = await Helado.find().populate('proveedor');
     if (!helados.length)
       return response.status(404).json({
         mensaje: 'Tienes una colección vacía',
@@ -53,7 +56,7 @@ const obtenerTodosLosHelados = async (request, response) => {
 const obtenerHeladoPorId = async (request, response) => {
   try {
     const { id } = request.params;
-    const helado = await Helado.findById(id);
+    const helado = await Helado.findById(id).populate('proveedor');
     if (!helado)
       return response.status(404).json({
         mensaje: 'Helado no encontrado',
@@ -83,7 +86,7 @@ const actualizarHelado = async (request, response) => {
       id,
       { nombre, sabor, precio },
       { new: true }
-    );
+    ).populate('proveedor');
 
     response.status(200).json({
       mensaje: 'Helado actualizado',
@@ -105,7 +108,7 @@ const borrarHelado = async (request, response) => {
       return response.status(404).json({
         mensaje: 'Helado no encontrado',
       });
-    const resp = await Helado.findByIdAndDelete(id);
+    const resp = await Helado.findByIdAndDelete(id).populate('proveedor');
 
     response.status(200).json({
       mensaje: 'Helado eliminado',

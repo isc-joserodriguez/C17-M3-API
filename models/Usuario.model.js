@@ -8,6 +8,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const uniqueValidator = require('mongoose-unique-validator');
 
 //! 2.- Crear el esquema
 //! ESTO FUNCIONA COMO UNA PLANTILLA
@@ -16,14 +17,24 @@ const jwt = require('jsonwebtoken');
 const UsuarioSchema = new mongoose.Schema({
   nombre: String,
   apellido: String,
-  edad: Number,
-  correo: String,
+  edad: {
+    type: Number,
+    min: [20, 'Debe tener mínimo 20 años.'],
+  },
+  correo: {
+    type: String,
+    required: true,
+    match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido'],
+    unique: true,
+  },
   telefono: String,
   avatar: String,
   rol: String,
   password: String,
   salt: String,
 });
+
+UsuarioSchema.plugin(uniqueValidator, { message: 'El correo ya existe' });
 
 UsuarioSchema.methods.encrypt = function (password, salt) {
   return crypto
@@ -41,7 +52,9 @@ UsuarioSchema.methods.verifyPassword = function (password) {
 };
 
 UsuarioSchema.methods.generateJWT = function () {
-  return jwt.sign({ idUser: this._id, rol: this.rol }, process.env.JWT_SECRET);
+  return jwt.sign({ idUser: this._id, rol: this.rol }, process.env.JWT_SECRET, {
+    expiresIn: 30 * 24 * 60 * 60 * 1000,
+  });
 };
 
 //! 3.- Exportar el modelo
