@@ -27,9 +27,10 @@ const UsuarioSchema = new mongoose.Schema({
     match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido'],
     unique: true,
   },
-  telefono: String,
-  avatar: String,
-  rol: String,
+  rol: {
+    type: String,
+    default: 'cliente',
+  },
   password: String,
   salt: String,
 });
