@@ -6,6 +6,7 @@ const usuariosRouter = require('./Usuarios.route');
 const heladosRouter = require('./Helados.route');
 const authRouter = require('./Auth.route');
 const proovedorRouter = require('./Proveedor.route');
+const ventasRouter = require('./Ventas.route');
 //! 3.- Crear rutas "Raíz"
 router.get('/', (request, response) => {
   response.json({
@@ -18,5 +19,6 @@ router.use('/usuarios', usuariosRouter);
 router.use('/helados', heladosRouter);
 router.use('/auth', authRouter);
 router.use('/proveedor', proovedorRouter);
+router.use('/ventas', ventasRouter);
 //! 5.- Exportar rutas
 module.exports = router;
