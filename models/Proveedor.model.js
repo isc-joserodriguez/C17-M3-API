@@ -11,10 +11,15 @@ const mongoose = require('mongoose');
 //! ESTO FUNCIONA COMO UNA PLANTILLA
 //! VALIDA DATOS
 //! PERMITE MOSTRAR MENSAJES DE ERROR.
-const ProveedorSchema = new mongoose.Schema({
-  nombre: String,
-  telefono: String,
-});
+const ProveedorSchema = new mongoose.Schema(
+  {
+    nombre: String,
+    telefono: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 
 //! 3.- Exportar el modelo
 //! Parametro 1: Nombre de mi esquema

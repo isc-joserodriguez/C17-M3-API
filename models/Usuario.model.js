@@ -14,26 +14,31 @@ const uniqueValidator = require('mongoose-unique-validator');
 //! ESTO FUNCIONA COMO UNA PLANTILLA
 //! VALIDA DATOS
 //! PERMITE MOSTRAR MENSAJES DE ERROR.
-const UsuarioSchema = new mongoose.Schema({
-  nombre: String,
-  apellido: String,
-  edad: {
-    type: Number,
-    min: [20, 'Debe tener mínimo 20 años.'],
+const UsuarioSchema = new mongoose.Schema(
+  {
+    nombre: String,
+    apellido: String,
+    edad: {
+      type: Number,
+      min: [20, 'Debe tener mínimo 20 años.'],
+    },
+    correo: {
+      type: String,
+      required: true,
+      match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido'],
+      unique: true,
+    },
+    rol: {
+      type: String,
+      default: 'cliente',
+    },
+    password: String,
+    salt: String,
   },
-  correo: {
-    type: String,
-    required: true,
-    match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email inválido'],
-    unique: true,
-  },
-  rol: {
-    type: String,
-    default: 'cliente',
-  },
-  password: String,
-  salt: String,
-});
+  {
+    timestamps: true,
+  }
+);
 
 UsuarioSchema.plugin(uniqueValidator, { message: 'El correo ya existe' });
 
