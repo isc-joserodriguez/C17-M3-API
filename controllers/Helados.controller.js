@@ -75,7 +75,7 @@ const obtenerHeladoPorId = async (request, response) => {
 
 const actualizarHelado = async (request, response) => {
   try {
-    if (request.user.rol === 'cliente')
+    if (request.user.rol !== 'Administrador' && request.user.rol !== 'Vendedor')
       return response.status(401).json({
         mensaje: 'Sólo el Admin/Vendedor puede modificar un helado',
       });

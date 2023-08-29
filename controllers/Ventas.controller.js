@@ -11,7 +11,7 @@ const crearVenta = async (request, response) => {
       });
 
     //! Crea una venta nuevo
-    const venta = new Venta(request.body);
+    const venta = new Venta({ ...request.body, cliente: request.user.idUser });
 
     const resp = await venta.save();
 
