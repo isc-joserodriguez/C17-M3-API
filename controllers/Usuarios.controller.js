@@ -24,7 +24,7 @@ const obtenerTodosLosUsuarios = async (request, response) => {
 const obtenerUsuarioPorId = async (request, response) => {
   try {
     const { id } = request.params;
-    const usuario = await Usuario.findById(id);
+    const usuario = await Usuario.find(id);
     if (!usuario)
       return response.status(404).json({
         mensaje: 'Usuario no encontrado',
@@ -76,7 +76,16 @@ const borrarUsuario = async (request, response) => {
       return response.status(404).json({
         mensaje: 'Usuario no encontrado',
       });
+
+    //! Eliminado físico
     const resp = await Usuario.findByIdAndDelete(id);
+
+    //! Eliminado lógico
+    /* const resp = await Usuario.findByIdAndUpdate(
+      id,
+      { status: 'inactivo' },
+      { new: true }
+    ); */
 
     response.status(200).json({
       mensaje: 'Usuario eliminado',

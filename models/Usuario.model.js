@@ -30,6 +30,7 @@ const UsuarioSchema = new mongoose.Schema(
     },
     rol: {
       type: String,
+      enum: ['cliente', 'Administrador', 'Vendedor'],
       default: 'cliente',
     },
     password: String,

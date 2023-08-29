@@ -14,8 +14,8 @@ const auth = require('../middleware/auth');
 
 //! 3.- Crear rutas "Raíz"
 router.post('/', auth, crearHelado);
-router.get('/', obtenerTodosLosHelados);
-router.get('/:id', obtenerHeladoPorId);
+router.get('/', auth, obtenerTodosLosHelados);
+router.get('/:id', auth, obtenerHeladoPorId);
 router.put('/:id', auth, actualizarHelado);
 router.delete('/:id', auth, borrarHelado);
 

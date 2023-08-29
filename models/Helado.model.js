@@ -23,6 +23,10 @@ const HeladoSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: 'Proveedor',
     },
+    status: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

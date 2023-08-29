@@ -36,7 +36,7 @@ const crearHelado = async (request, response) => {
 
 const obtenerTodosLosHelados = async (request, response) => {
   try {
-    const helados = await Helado.find().populate('proveedor');
+    const helados = await Helado.find({ status: true }).populate('proveedor');
     if (!helados.length)
       return response.status(404).json({
         mensaje: 'Tienes una colección vacía',
@@ -75,6 +75,10 @@ const obtenerHeladoPorId = async (request, response) => {
 
 const actualizarHelado = async (request, response) => {
   try {
+    if (request.user.rol === 'cliente')
+      return response.status(401).json({
+        mensaje: 'Sólo el Admin/Vendedor puede modificar un helado',
+      });
     const { id } = request.params;
     const heladoExists = await Helado.findById(id);
     if (!heladoExists)
@@ -102,13 +106,21 @@ const actualizarHelado = async (request, response) => {
 
 const borrarHelado = async (request, response) => {
   try {
+    if (request.user.rol !== 'Administrador')
+      return response.status(401).json({
+        mensaje: 'Sólo el Admin puede eliminar un helado',
+      });
     const { id } = request.params;
     const heladoExists = await Helado.findById(id);
     if (!heladoExists)
       return response.status(404).json({
         mensaje: 'Helado no encontrado',
       });
-    const resp = await Helado.findByIdAndDelete(id).populate('proveedor');
+    //! eliminación Lógica
+    //const resp = await Helado.findByIdAndDelete(id).populate('proveedor');
+    const resp = await Helado.findByIdAndUpdate(id, { status: false }).populate(
+      'proveedor'
+    );
 
     response.status(200).json({
       mensaje: 'Helado eliminado',

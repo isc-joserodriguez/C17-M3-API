@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const Venta = mongoose.model('Venta');
 
 const crearVenta = async (request, response) => {
+
   try {
-    if (request.user.rol !== 'Administrador')
+    if (request.user.rol !== 'cliente')
       return response.status(401).json({
-        mensaje: 'Sólo un Administrador puede crear ventas',
+        mensaje: 'Sólo un Cliente puede hacer compras',
       });
 
     //! Crea una venta nuevo
