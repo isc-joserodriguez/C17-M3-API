@@ -35,6 +35,9 @@ const VentaSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    idOrder: {
+      type: String,
+    },
   },
   {
     timestamps: true,

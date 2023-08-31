@@ -14,7 +14,7 @@ const crearVenta = async (request, response) => {
     const venta = new Venta({ ...request.body, cliente: request.user.idUser });
 
     const resp = await venta.save();
-
+    //! ---------------------------------------
     response.status(201).json({
       mensaje: 'Venta guardada',
       data: await resp.populate('productos.producto').populate('cliente'),
@@ -22,7 +22,7 @@ const crearVenta = async (request, response) => {
   } catch (err) {
     console.error(err);
     response.status(400).json({
-      mensaje: 'No se pudo guardar el venta',
+      mensaje: 'No se pudo guardar la venta',
     });
   }
 };

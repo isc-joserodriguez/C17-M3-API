@@ -18,7 +18,7 @@ router.get('/', (request, response) => {
 router.use('/usuarios', usuariosRouter);
 router.use('/helados', heladosRouter);
 router.use('/auth', authRouter);
-router.use('/proveedor', proovedorRouter);
+router.use('/proveedores', proovedorRouter);
 router.use('/ventas', ventasRouter);
 //! 5.- Exportar rutas
 module.exports = router;
