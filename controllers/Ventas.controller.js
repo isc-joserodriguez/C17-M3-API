@@ -29,6 +29,10 @@ const crearVenta = async (request, response) => {
 
 const obtenerTodasLasVentas = async (request, response) => {
   try {
+    if (request.user.rol !== 'Administrador')
+      return response.status(401).json({
+        mensaje: 'Sólo un Administrador puede revisar las compras',
+      });
     const ventas = await Venta.find()
       .populate('productos.producto')
       .populate('cliente');

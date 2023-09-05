@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
-const registro = async (request, response, next) => {
+const registro = async (request, response) => {
   try {
     const { password } = request.body;
     delete request.body.password;
@@ -14,7 +14,7 @@ const registro = async (request, response, next) => {
     await usuario.save();
 
     response.status(201).json({
-      mensaje: 'Usuario guardado ',
+      mensaje: 'Usuario guardado',
       data: {
         token: usuario.generateJWT(),
         info: {

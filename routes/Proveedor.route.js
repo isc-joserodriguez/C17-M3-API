@@ -14,7 +14,7 @@ const auth = require('../middleware/auth');
 
 //! 3.- Crear rutas "Raíz"
 router.post('/', auth, crearProveedor);
-router.get('/', /* auth, */ obtenerTodosLosProveedores);
+router.get('/', auth, obtenerTodosLosProveedores);
 router.get('/:id', auth, obtenerProveedorPorId);
 router.put('/:id', auth, actualizarProveedor);
 router.delete('/:id', auth, borrarProveedor);
