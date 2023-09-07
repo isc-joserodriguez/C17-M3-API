@@ -33,6 +33,10 @@ const UsuarioSchema = new mongoose.Schema(
       enum: ['cliente', 'Administrador', 'Vendedor'],
       default: 'cliente',
     },
+    status: {
+      type: Boolean,
+      default: true,
+    },
     password: String,
     salt: String,
   },

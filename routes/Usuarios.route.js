@@ -7,7 +7,8 @@ const {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
-  borrarUsuario,
+  desactivarUsuario,
+  activarUsuario,
 } = require('../controllers');
 const auth = require('../middleware/auth');
 
@@ -15,7 +16,6 @@ const auth = require('../middleware/auth');
 router.get('/', auth, obtenerTodosLosUsuarios);
 router.get('/:id', auth, obtenerUsuarioPorId);
 router.put('/:id', auth, actualizarUsuario);
-router.delete('/:id', auth, borrarUsuario);
 
 //! 4.- Exportar rutas
 module.exports = router;

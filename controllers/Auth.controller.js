@@ -44,6 +44,10 @@ const iniciarSesion = async (request, response) => {
       return response.status(401).json({
         mensaje: 'Contraseña inválida',
       });
+    if (!usuario.status)
+      return response.status(403).json({
+        mensaje: 'El usuario está desactivado',
+      });
 
     response.status(200).json({
       mensaje: 'Login correcto',

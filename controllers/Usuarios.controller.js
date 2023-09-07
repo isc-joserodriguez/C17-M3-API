@@ -24,7 +24,7 @@ const obtenerTodosLosUsuarios = async (request, response) => {
 const obtenerUsuarioPorId = async (request, response) => {
   try {
     const { id } = request.params;
-    const usuario = await Usuario.find(id);
+    const [usuario] = await Usuario.find({ id, status: true });
     if (!usuario)
       return response.status(404).json({
         mensaje: 'Usuario no encontrado',
@@ -44,15 +44,16 @@ const obtenerUsuarioPorId = async (request, response) => {
 const actualizarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
-    const usuarioExists = await Usuario.findById(id);
+    const usuarioExists = await Usuario.find({ _id: id });
+    console.log(usuarioExists, id);
     if (!usuarioExists)
       return response.status(404).json({
         mensaje: 'Usuario no encontrado',
       });
-    const { nombre, apellido, edad } = request.body;
+    const { nombre, apellido, edad, status } = request.body;
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
       id,
-      { nombre, apellido, edad },
+      { nombre, apellido, edad, status },
       { new: true }
     );
 
@@ -68,7 +69,7 @@ const actualizarUsuario = async (request, response) => {
   }
 };
 
-const borrarUsuario = async (request, response) => {
+const desactivarUsuario = async (request, response) => {
   try {
     const { id } = request.params;
     const usuarioExists = await Usuario.findById(id);
@@ -78,17 +79,17 @@ const borrarUsuario = async (request, response) => {
       });
 
     //! Eliminado físico
-    const resp = await Usuario.findByIdAndDelete(id);
+    //const resp = await Usuario.findByIdAndDelete(id);
 
     //! Eliminado lógico
-    /* const resp = await Usuario.findByIdAndUpdate(
+    const resp = await Usuario.findByIdAndUpdate(
       id,
-      { status: 'inactivo' },
+      { status: false },
       { new: true }
-    ); */
+    );
 
     response.status(200).json({
-      mensaje: 'Usuario eliminado',
+      mensaje: 'Usuario desactivado',
       data: resp,
     });
   } catch (err) {
@@ -103,7 +104,33 @@ module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
-  borrarUsuario,
+  desactivarUsuario,
+  activarUsuario: async (request, response) => {
+    try {
+      const { id } = request.params;
+      const usuarioExists = await Usuario.findById(id);
+      if (!usuarioExists)
+        return response.status(404).json({
+          mensaje: 'Usuario no encontrado',
+        });
+
+      const resp = await Usuario.findByIdAndUpdate(
+        id,
+        { status: true },
+        { new: true }
+      );
+
+      response.status(200).json({
+        mensaje: 'Usuario activado',
+        data: resp,
+      });
+    } catch (err) {
+      console.error(err);
+      response.status(400).json({
+        mensaje: 'Error en el servidor',
+      });
+    }
+  },
 };
 
 //! export default Componente; // Webpack, rollup, browserify, etc.
